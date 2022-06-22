@@ -1,0 +1,19 @@
+---
+- name: Tomcat deployment using playbook
+  hosts: all
+  become: true
+  vars_files:
+    var-test
+  tasks:
+  - name: download apache tomcat
+    get_url:
+      url: "{{tomcat_url}}"
+      dest: /home/trinadh/test
+  - name: extract dowloaded apache tomcat
+    unarchive:
+      src: /home/trinadh/test/{{tomcat_version}}.tar.gz
+      dest: /home/trinadh/test
+      remote_src: yes
+  - name: start tomcat services
+    shell: /home/trinadh/test/{{tomcat_version}}/bin/startup.sh
+
